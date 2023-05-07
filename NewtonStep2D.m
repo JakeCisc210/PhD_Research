@@ -1,0 +1,30 @@
+function [dx1, dx2] = newton_step_2d(function1,function2,x1,x2,h,tol)
+% The purpose of this function is to compute dx1 and dx2 such that the
+% inputs x1+dx1 and x2+dx1 comer close to setting function1 and function2
+% to zero with tolerance tol. h is the finite distance constant, which is
+% used to approximate the partial derivatives of both functions using a
+% fourth order finite difference method.
+    numIter = 0; % Number of while loop iterations
+    while abs(function1(x1,x2)) > tol && abs(function2(x1,x2))) > tol && numIter < 1000
+        numIter = numIter + 1;
+        
+        % Partial derivatives approximated using fourth order finite difference method
+        coeffs = [1 -8 8 1]/(12*h); x1Spread = x1*ones(1,4)+[-2*h -h h 2*h]; x2Spread = x2*ones(1,4)+[-2*h -h h 2*h];
+        dFunction1dX1 = dot(coeffs,function1(x1Spread,x2*ones(1,4)));
+        dFunction1dX2 = dot(coeffs,function1(x1*ones(1,4),x2Spread));
+        dFunction2dX1 = dot(coeffs,function2(x1Spread,x2*ones(1,4)));
+        dFunction2dX2 = dot(coeffs,function2(x1*ones(1,4),x2Spread));
+
+        Jacobian = [[dFunction1dX1, dFunction1dX2], [dFunction2dX1, dFunction2dX2]];
+        functionEvals = [function1(x1,x2), function1(x1,x2)];
+
+        if abs(ndet(Jacobian)) <= 100*eps
+          fprintf("Singular Jacobian")
+          dx1 = 0; dx2 = 0;
+        end
+        
+        if abs(det(Jacobian)) > 100*eps
+          [dx1, dx2] = -1*dot(inv(Jacobian),functionEvals);
+        end
+    end
+end
