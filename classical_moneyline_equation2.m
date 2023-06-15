@@ -6,5 +6,4 @@ function value = classical_moneyline_equation2(money_density,gamma,palpha,pbeta)
         term3 = pbeta*(1-pbeta)*money_density(pbeta)*(1-gamma(palpha));
         term4 = (palpha-pbeta)*(1-pbeta)*palpha*money_density(palpha)*money_density(pbeta);
         value = term1 + term2 + term3 - term4;
-
 end
