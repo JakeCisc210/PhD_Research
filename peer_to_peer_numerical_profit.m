@@ -7,6 +7,9 @@ function profit = peer_to_peer_numerical_profit(funct,functMax,x,numParticipants
     end
     
     for 1:numParticipants
+        probabilitySet = 0;
+        counter = 1;
+        while probabilitySet == 0 && counter < 1000
     end
     
 
