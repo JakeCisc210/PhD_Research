@@ -14,16 +14,16 @@ function [dx1, dx2] = newton_step_2d(function1,function2,x1,x2,h)
     dFunction2dX1 = dot(coeffs,function2(x1Spread,x2*ones(1,4)));
     dFunction2dX2 = dot(coeffs,function2(x1*ones(1,4),x2Spread));
 
-    Jacobian = [[dFunction1dX1, dFunction1dX2], [dFunction2dX1, dFunction2dX2]];
-    functionEvals = [function1(x1,x2), function1(x1,x2)];
+    Jacobian = [dFunction1dX1, dFunction1dX2,; dFunction2dX1, dFunction2dX2];
+    functionEvals = [function1(x1,x2); function2(x1,x2)];
 
-    if abs(ndet(Jacobian)) <= 100*eps
+    if abs(det(Jacobian)) <= 100*eps
         fprintf("Singular Jacobian")
         dx1 = 0; dx2 = 0;
     end
 
     if abs(det(Jacobian)) > 100*eps
-        dxValues = -1*functionEvals\Jacobian;
+        dxValues = -1*Jacobian\functionEvals;
         dx1 = dxValues(1);
         dx2 = dxValues(2);
     end
