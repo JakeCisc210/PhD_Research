@@ -18,7 +18,7 @@ function [dx1, dx2] = newton_step_2d(function1,function2,x1,x2,h)
     functionEvals = [function1(x1,x2); function2(x1,x2)];
 
     if abs(det(Jacobian)) <= 100*eps
-        fprintf("Singular Jacobian")
+        warning("Singular Jacobian")
         dx1 = 0; dx2 = 0;
     end
 

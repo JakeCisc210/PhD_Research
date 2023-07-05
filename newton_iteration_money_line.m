@@ -34,11 +34,13 @@ function solvedMoneyLine = newton_iteration_money_line(money_density,gamma,toler
         numIter = numIter + 1;
     end
     
-    if numIter >= 10000; error('Maximum Iterations Reached'); end
-    
-    solvedMoneyLine.paNI = round(pa,4);
-    solvedMoneyLine.pbNI = round(pb,4);
-    solvedMoneyLine.alphaNI = round(100/(1/pa-1),2);
-    solvedMoneyLine.betaNI = round(100/(1/pb-1),2);
-    solvedMoneyLine.profitNI = round((1-gamma(pa))-solvedMoneyLine.betaNI/100*gamma(pb),4);
+    if numIter >= 10000
+        warning('Maximum Iterations Reached');
+    else
+        solvedMoneyLine.paNI = round(pa,4);
+        solvedMoneyLine.pbNI = round(pb,4);
+        solvedMoneyLine.alphaNI = round(100/(1/pa-1),2);
+        solvedMoneyLine.betaNI = round(100/(1/pb-1),2);
+        solvedMoneyLine.profitNI = round((1-gamma(pa))-solvedMoneyLine.betaNI/100*gamma(pb),4);
+    end
 end
