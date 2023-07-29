@@ -4,7 +4,7 @@ function [profitMean,profitStDev] = peer_to_peer_numerical_profit(funct,functMax
         functMax = 1/sqrt(2*pi)/.1/erf(sqrt(2));
         x = 2;
         numParticipants = 100000;
-        numTrials = 30;
+        numTrials = 1;
         opt.displayHistogram = 1;
         opt.displayConfidenceInterval = 1;
         opt.Center = .5;
@@ -58,10 +58,11 @@ function [profitMean,profitStDev] = peer_to_peer_numerical_profit(funct,functMax
             hold on
             functDomain = opt.Center-opt.maxSpread:.01:opt.Center+opt.maxSpread;
             histogram(probabilityArray,functDomain)
-            plot(functDomain,numParticipants/100*funct(functDomain),'LineWidth',1.5)
+            plot(functDomain,numParticipants/100*funct(functDomain),'LineWidth',2)
             legend({'Numerical Distributon','Theoretical Distribution'})
             xlabel('Probability')
             ylabel('Quantity of People')
+            myAxes = gca; myAxes.FontSize = 24; myAxes.FontWeight = 'bold';      
         end
             
         profitArray(ii) = profit/numParticipants;
