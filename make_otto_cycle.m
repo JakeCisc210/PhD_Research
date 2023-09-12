@@ -6,7 +6,7 @@ function make_otto_cycle(T1,gamma,mH,mC,TH,TC,opt)
         gamma = 2; % specific heat of reservoir / ( 3/2 N kB )
         mH = 3; % in kilograms
         mC = 7; % in kilograms
-        TH = 375; % in Kelvin
+        TH = 1000; % in Kelvin
         TC = 75; % in Kelvin
         opt.V1 = 1;
         opt.numPoints = 400;
@@ -55,6 +55,7 @@ function make_otto_cycle(T1,gamma,mH,mC,TH,TC,opt)
     myAxes.XAxis.Label.String = 'Volume (m^3)'; myAxes.YAxis.Label.String = 'Pressure (N kB T / m^3)';
     myAxes.XLim = [0,V2+1]; myAxes.YLim = [-15,max(valuesP)+15];
     plot(myAxes,valuesV,valuesP,'LineWidth',2,'Color',[1 0 0])
+    title('Otto Cycle')
     
     numerator = (gamma*mC+gamma*gamma*mC*mH)*(T1-TC)-gamma*mH*(TH-T1);
     denominator = (gamma*mC+gamma*gamma*mC*mH)*T1-gamma*mH*(TH-T1);
