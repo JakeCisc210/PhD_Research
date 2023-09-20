@@ -1,4 +1,4 @@
-function value = residual_constraint(density,gamma,pbeta,palpha)
+function value = derived_constraint(density,gamma,pbeta,palpha)
 % Takes density, gamma, vLow, vHigh
 
 % Returns the value of the equation corresponding to the second equation
