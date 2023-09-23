@@ -3,5 +3,5 @@ function value = prime_constraint(~,gamma,pbeta,palpha)
 
 % Returns the value of the equation corresponding to the balance constraint
 % of a classical money line
-    value = palpha.*gamma(pbeta) - (1-pbeta).*(gamma(1)-gamma(palpha));
+    value = palpha.*gamma(pbeta) - (1-pbeta).*(gamma(1e6)-gamma(palpha));
 end

@@ -1,28 +1,30 @@
-function [vL,vH] = solver(prime_constraint,derived_constraint,tolerance)
+function [vL,vH] = solver(prime_constraint,derived_constraint,tolerance,range)
     
-    % Find our initial pa and pb
-    vL = .51;
-    numTries = 0;
-    while abs(derived_constraint(vL)) < .1 && numTries < 1000
-        numTries = numTries + 1; vL = rand();
-    end
-    if numTries >= 999; error('System Utility Function Too Concentrated'); end
-    vH = vL;
+% range is of the from [lowerBound upperBound]
+
+    % Find our initial vL and vH
+    vL = mean(range);
+    vH = mean(range) + rand()*diff(range)/2;
     
     % Iteration Time
     numIter = 0;
     
     h = power(10,-6); % TODO: Add option for h
     
-    while abs(prime_constraint(vL,vH)) > tolerance && abs(derived_constraint(vL,vH))&& numIter < 1000
-        f1 = @(var1,var2) prime_constraint(var1,var2);
-        f2 = @(var1,var2) derived_constraint(var1,var2);
-        [dvL, dvH] = Newton.step_2d(f1,f2,vL,vH,h);
-        vL = vL + dvL;
-        vH = vH + dvH;     
+    while abs(prime_constraint(vL,vH)) > tolerance && abs(derived_constraint(vL,vH))> tolerance && numIter < 1000       
+        [dvL, dvH,singularJacobian] = Newton.step_2d(prime_constraint,derived_constraint,vL,vH,h);
+        
+        if ~singularJacobian
+            vL = vL + dvL;
+            vH = vH + dvH;
+        else
+            vL = mean(range);
+            vH = mean(range) + rand()*diff(range)/2;
+        end
+        
         numIter = numIter + 1;
     end
-    
+
     if numIter >= 1000
         error('Maximum Iterations Reached');
     end
