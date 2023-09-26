@@ -1,3 +1,3 @@
-function utility = system_micro_utility(vLow,vHigh,x)
-    utility = x*(vHigh-vLow)/(2+x);
+function value = system_micro_utility(vLow,vHigh,x)
+    value = x*(vHigh-vLow)/(2+x);
 end
