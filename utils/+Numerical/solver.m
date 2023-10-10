@@ -1,4 +1,4 @@
-function [vL,vH,profitMax] = solver(system_utility,prime_constraint,range,tolerance)
+function [vL,vH,profitMax] = solver(system_utility,prime_constraint,range,tolerance,myOptions)
 
 % For Macroscopic Matching
 
@@ -7,11 +7,10 @@ function [vL,vH,profitMax] = solver(system_utility,prime_constraint,range,tolera
         prime_constraint = @(pa,pb) 15 - pa - pb;
         range = [5 10];
         tolerance = 1e-4;
+        myOptions.grainSize = diff(range)/1000;
     end
-    
-    grainSize = diff(range)/1000;
    
-    valueMesh = range(1):grainSize:range(2);
+    valueMesh = range(1):myOptions.grainSize:range(2);
     
     profitMax = 0;
     idealParameters = [0 0];

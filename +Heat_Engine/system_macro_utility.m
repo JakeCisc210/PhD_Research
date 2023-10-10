@@ -18,7 +18,7 @@ function value = system_macro_utility(density,gamma,vLow,vHigh,T1,specificHeat)
     mC = gamma(vLow); % in kilograms   
     mH = gamma(1e6)-gamma(vHigh); % in kilograms, assume max temperature is 1e6
     
-    averageIntegrand = @(T) T*density(T);
+    averageIntegrand = @(T) T.*density(T);
     TC = integral(averageIntegrand,0,vLow,'ArrayValued',true)/integral(density,0,vLow,'ArrayValued',true); % in Kelvin
     TH = integral(averageIntegrand,vHigh,1e6,'ArrayValued',true)/integral(density,vHigh,1e6,'ArrayValued',true); % in Kelvin  
 
