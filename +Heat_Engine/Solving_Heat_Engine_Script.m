@@ -1,6 +1,7 @@
 %% Set Up Money Density Function and Gamma
 mass_temperature_density = @(T) double_stunted_gaussian(T,250,50); % Better word for mass temperature
 gamma = @(T) double_stunted_gaussian_gamma(T,250,50);
+gamma(350)
 
 T1 = 250;
 specificHeat = 2; % specific heat of reservoir / ( 3/2 N kB );  
@@ -14,12 +15,13 @@ p_c = @(vLow,vHigh) Heat_Engine.prime_constraint(mass_temperature_density,gamma,
 
 % Microscopic
 numTrials = 100;
-numParticipants = 1000; % To allow both types of matching
+numParticipants = 1000;
 functMax = mass_temperature_density(250);
 mC = 1/1000;
 mH = 1/1000;
 
 workArray = zeros(1,numTrials);
+negativeWorkPairings = zeros(1,numTrials);
 for ii = 1:numTrials
     totalWork = 0;
     % Setting up the probabilities
@@ -42,19 +44,18 @@ for ii = 1:numTrials
     temperatureArray = sort(temperatureArray);
     
     % Outside In Matching
-    for jj = 1:numParticipants/4-1
+    for jj = 1:numParticipants/2
         vLow = temperatureArray(jj);
         vHigh = temperatureArray(numParticipants-jj);
         localWork = Heat_Engine.system_micro_utility(vLow,vHigh,T1,specificHeat,mC,mH);
-        totalWork = totalWork+localWork;
-    end
-    
-    % Split n' Pair Matching
-    for jj = numParticipants/4:numParticipants/2
-        vLow = temperatureArray(jj);
-        vHigh = temperatureArray(numParticipants/4+jj);
-        localWork = Heat_Engine.system_micro_utility(vLow,vHigh,T1,specificHeat,mC,mH);
-        totalWork = totalWork+localWork;
+
+        if localWork < 0
+            negativeWorkPairings(ii) = negativeWorkPairings(ii) + 1;
+            % fprintf('Negative Work with TCbuffer = %.4g, THbuffer = %.4g, T1 = %d\n',vLow,vHigh,T1)
+        else
+            totalWork = totalWork+localWork;
+        end
+
     end
     
     workArray(ii) = totalWork/numParticipants;
@@ -64,7 +65,8 @@ workMean = mean(workArray);
 workStDev = std(workArray)/sqrt(numTrials);
 
 fprintf('Peer to Peer:\n')
-fprintf('\nConfidence Interval [%g,%g]\n',workMean-1.96*workStDev,workMean+1.96*workStDev)
+fprintf('Confidence Interval [%g,%g]\n',workMean-1.96*workStDev,workMean+1.96*workStDev)
+fprintf('Negative Work Pairings: %.3g/%g\n',mean(negativeWorkPairings),numParticipants/2)
 
 
 
