@@ -1,5 +1,9 @@
-%% Set Up Money Density Function and Gamma
+%% Set Up Temperature Mass Density Function and Gamma
 mass_temperature_density = @(T) double_stunted_gaussian(T,250,50); % Better word for mass temperature
+mass_temperature_density = @(T) .5*((T-200)<5) + .5*((T-300)<5);
+
+mass_temperature_density(270) %???
+
 gamma = @(T) double_stunted_gaussian_gamma(T,250,50);
 gamma(350)
 
@@ -10,8 +14,8 @@ s_mac_u = @(vLow,vHigh) Heat_Engine.system_macro_utility(mass_temperature_densit
 p_c = @(vLow,vHigh) Heat_Engine.prime_constraint(mass_temperature_density,gamma,vLow,vHigh);
 
 % Macroscopic
-[vL,vH,profitMax] = Numerical.solver(s_mac_u,p_c,[150,350],.03,'grainSize',10)
-
+[vL,vH,profitMax] = Numerical.solver(s_mac_u,p_c,[150,350],.03,'grainSize',5)
+Heat_Engine.system_micro_utility(200,300,T1,specificHeat,.5,.5)
 
 % Microscopic
 numTrials = 100;
@@ -25,14 +29,14 @@ negativeWorkPairings = zeros(1,numTrials);
 for ii = 1:numTrials
     totalWork = 0;
     % Setting up the probabilities
-    temperatureArray = ones(1,1000);
+    temperatureArray = ones(1,numParticipants);
     for jj = 1:numParticipants
         temperatureSet = 0;
         counter = 1;
         while temperatureSet == 0 && counter < 1000
             T = rand()*200+150;
             chance = rand();
-            if abs(T-250) <= 100 && chance < mass_temperature_density(T)/functMax
+            if chance < mass_temperature_density(T)/functMax
                 temperatureArray(jj) = T;
                 temperatureSet = 1;
             end
@@ -46,7 +50,7 @@ for ii = 1:numTrials
     % Outside In Matching
     for jj = 1:numParticipants/2
         vLow = temperatureArray(jj);
-        vHigh = temperatureArray(numParticipants-jj);
+        vHigh = temperatureArray(numParticipants-jj+1);
         localWork = Heat_Engine.system_micro_utility(vLow,vHigh,T1,specificHeat,mC,mH);
 
         if localWork < 0

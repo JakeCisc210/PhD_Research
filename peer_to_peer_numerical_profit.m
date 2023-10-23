@@ -39,7 +39,7 @@ function [profitMean,profitStDev] = peer_to_peer_numerical_profit(funct,functMax
         % Outside In Matching
         for jj = 1:numParticipants/4-1
             Pm = probabilityArray(jj);
-            Pz = probabilityArray(numParticipants-jj);
+            Pz = probabilityArray(numParticipants-jj+1);
             [~,~,~,~,Fee,~] = peer_to_peer(Pm,Pz,1,x);
             profit = profit+Fee;
         end
