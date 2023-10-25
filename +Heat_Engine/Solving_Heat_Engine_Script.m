@@ -1,8 +1,18 @@
+Heat_Engine.system_micro_utility(vLow,vHigh,T1,specificHeat,.05,.05)
+Heat_Engine.system_micro_utility(vLow,vHigh,T1,specificHeat,.5,.5)
+
+% Not proportional!!!!
+% Do we recover proportional like behavior when we 'run down the
+% reservoirs' (keep cycling until Heat Cycle is no longer 'profitable' in
+% energy)???
+
+
+
 %% Set Up Temperature Mass Density Function and Gamma
 mass_temperature_density = @(T) double_stunted_gaussian(T,250,50); % Better word for mass temperature
-mass_temperature_density = @(T) .5*((T-200)<5) + .5*((T-300)<5);
+% mass_temperature_density = @(T) .5*((T-200)<5) + .5*((T-300)<5);
 
-mass_temperature_density(270) %???
+% mass_temperature_density(270) %???
 
 gamma = @(T) double_stunted_gaussian_gamma(T,250,50);
 gamma(350)

@@ -20,15 +20,12 @@ function value = system_micro_utility(vLow,vHigh,T1,specificHeat,mC,mH)
     TC = vLow;
     TH = vHigh;
     
-    numerator1 = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*(T1-TC)-specificHeat*mH*(TH-T1)
-    denominator1 = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*T1-specificHeat*mH*(TH-T1)
+    % Before:
+    % numerator = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*(T1-TC)-specificHeat*mH*(TH-T1)
+    % denominator = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*T1-specificHeat*mH*(TH-T1)
 
-    % These may be the correct values:
-    numerator2 = mH*(TH-T1)-mC*(1+specificHeat*mH)*(T1+TC) % Big Difference: Is it T1-TC or T1+TC???
-    denominator2 = mH*(TH-T1)-mC*(1+specificHeat*mH)*T1
-
-numerator1/denominator1
-numerator2/denominator2
+    numerator = mH*(TH-T1)-mC*(1+specificHeat*mH)*(T1+TC); % Big Difference: Is it T1-TC or T1+TC???
+    denominator = mH*(TH-T1)-mC*(1+specificHeat*mH)*T1;
 
     value = specificHeat*mH/(1+specificHeat*mH)*(TH-T1)*numerator/denominator;
     
