@@ -1,6 +1,7 @@
 function value = system_macro_utility(density,gamma,vLow,vHigh,T1,specificHeat)
 % Takes density, gamma, vLow, vHigh
 % Assume volume is adjustable
+% Wout in terms of 3/2 N kB
 
     arguments
         density = @(T) double_stunted_gaussian(T,250,50);
@@ -24,6 +25,6 @@ function value = system_macro_utility(density,gamma,vLow,vHigh,T1,specificHeat)
 
     numerator = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*(T1-TC)-specificHeat*mH*(TH-T1);
     denominator = (specificHeat*mC+specificHeat*specificHeat*mC*mH)*T1-specificHeat*mH*(TH-T1);
-    value = 3/2*specificHeat*mH/(1+specificHeat*mH)*(TH-T1)*numerator/denominator;
+    value = specificHeat*mH/(1+specificHeat*mH)*(TH-T1)*numerator/denominator;
 
 end
