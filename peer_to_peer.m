@@ -17,6 +17,9 @@ function  peer_bet = peer_to_peer(p1,p2,M,x)
 %
 %       profit - the amount of money the sportsbook made from arranging this bet
 %
+%       profitability - profit / (pot + profit) AKA profit / sum of player
+%       bets
+%
 %       extraction coefficient - the ratio of profit to a single player's
 %               expectation value
 % 
@@ -25,8 +28,9 @@ function  peer_bet = peer_to_peer(p1,p2,M,x)
 %                       focal event doesn't happen/happens
 %               bet_amount - amount the player must put in 
 %     
-    peer_bet.profit = x*(max(p1,p2)-min(p1,p2)) / (max(p1+p2,2-p1-p2)+ x*max(max(p1,p2),1-min(p1,p2)) );
+    peer_bet.profit = x*M*(max(p1,p2)-min(p1,p2)) / (max(p1+p2,2-p1-p2)+ x*max(max(p1,p2),1-min(p1,p2)) );
     peer_bet.pot = (2*M-peer_bet.profit)/max(p1+p2,2-p1-p2);
+    peer_bet.profitability = peer_bet.profit/(peer_bet.profit+peer_bet.pot);
     
     if p1 > p2
         peer_bet.player(1).win_condition = 1;
