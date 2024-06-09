@@ -1,0 +1,627 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{ {./Images/} }
+
+\usepackage{enumerate}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{array}
+
+\setlength{\parindent}{15pt}
+\usepackage{parskip}
+\setlength{\parskip}{0.05in}
+
+% For Piecewise Functions:
+\usepackage{amsmath}
+
+% To Split Long Equations
+\usepackage{breqn}
+
+% For Bracketed Numbers in References
+\usepackage{enumitem}
+
+% Page Titles
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{}
+\chead{\textbf{\Large Peer to Peer Gambling}}
+\rhead{Jacob Wyngaard \\ \today}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+	\begin{center}
+
+	\vspace*{1 cm}
+	\textbf{\Large A Novel Method of Peer to Peer Gambling} \\
+	\vspace*{1 cm}
+	How generating a pool peer to peer bets using user provided probabilities creates a more balanced and profitable sportsbook. \\
+	\vspace*{1 cm}
+	Jacob Wyngaard
+	\vfill
+	A paper submitted to _____ for publication
+
+	\end{center}
+\end{titlepage}
+
+% Abstract and Key Words
+\section*{Abstract}
+
+\paragraph{} In this paper, a novel method of peer to peer gambling for binary events is introduced and compared to the traditional money line in use today. The implementation of this peer to peer gambling is explained, followed by the mathematical analysis of profitability. \\
+
+\vspace*{1 cm}
+
+ \textbf{\Large Key Words} \hspace{.5cm} Gambling, Probability
+
+\pagebreak
+
+% First Page of Paper
+
+\section{Gambling on Binary Events}
+
+\subsection{Betting with Money Lines}
+
+\paragraph{} The gambling considered within this paper will be limited to gambling on binary events, such as the winner of an NFL game. Currently, the most ubiquitous method of gambling on binary events is the money line. The money line maps each binary event outcome to a payoff ratio. The ratios are expressed in the following convention: $-N$ implies that for every $N$ dollars you bet on that outcome, you will receive 100 dollars if that outcome occurs. $N$ implies that for every 100 dollars you bet on that outcome, you receive $N$ dollars if that outcome occurs. Since N is at least 100 by convention, a negative number implies a greater than 50/50 chance of occuring, while a positive number implies a less than 50/50 chance of occuring. In cases where both outcomes have a close to par (?) chance of occuring, both binary events odds may be expressed as negative numbers. In order to make a profit, money lines with both a positive number and a negative number in their money lines must set the magnitude of the negative number to greater than that of the positive number.
+
+If the outcome is outside the binary event space (for example, a tie), then all bets are considered a 'push' and are returned to the bettors. The goal of the money line is to generate a proportional balance of bets on either event, which, combined with the skewed odds offered for these events, provides the sportsbook with the same positive profit no matter the outcome of the binary event. An example money line is provided below:
+
+% Money Line Tables - Start
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}m{#1}}
+\renewcommand{\arraystretch}{3.8}
+\setlength\extrarowheight{-.07cm}
+%
+
+\begin{center} 
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{ | C{6.9 cm} | C{6.9 cm} | }
+	\hline
+	\cellcolor{YellowGreen} \large Favorite & \cellcolor{lightgray} \large -$\alpha$  \\ 
+	\hline
+	\cellcolor{Salmon} \large Underdog & \cellcolor{lightgray} \large +$\beta$  \\  
+	\hline
+	\end{tabular}
+	\caption{\label{demo-table} The Money Line}
+	\end{table}
+\end{center}
+\vspace{-25pt}
+% Money Line Tables - End
+
+\paragraph{} This paper assumes that each player has some internal probability $p$ that they believe the focal event will occur. The determination of this internal probability, while an interesting question in and of itself, lies beyond the scope of this paper. The focal event is defined as a pre-selected outcome of the binary event space. For the remainder of this section, 'favorite' outcome will be defined as the focal event. Additionally, bettors are assumed to act rationally in that they will only bet on outcomes that generate a non-negative expectation value according to their internal probability. Using the money line above, we can compute the expected value for a bet made with $B$ dollars and internal proability $p$. \\
+
+% Relate this to Bernoulli Random Variable???
+
+% NOTE: No % comments allowed in Equations
+\begin{center}
+\underline{\textbf{Bet on Favorite}}
+\end{center}
+\vspace{-1pt}
+\begin{equation}
+\textnormal{Expected Value} = p (\frac{100}{\alpha}B)+(1-p) (-B)= (1+ \frac{100}{\alpha} )p B - B   
+\end{equation}
+
+\begin{center}
+\underline{\textbf{Bet on Underdog}}
+\end{center}
+\vspace{-1pt}
+\begin{equation}
+\textnormal{Expected Value} =(1-p) (\frac{\beta}{100}B)+p (-B) = \frac{\beta}{100}  - (1+\frac{\beta}{100})p B
+\end{equation}
+
+\paragraph{} Let $p_{\alpha}$ be the minimum focal event (favorite?) probability for betting on the favorite and $p_{\beta}$ be the maximum focal event probability for betting on the underdog. Assuming that all bettors avoid bets with negative expectation, $p_{\alpha}$ is the $p$ for which the expectation value of betting on the favorite is zero, while $p_{\beta}$ the $p$ for which the expectation value of betting on the underdog is zero. 
+
+\begin{equation}
+(1+ \frac{100}{\alpha} )p_\alpha B - B = 0 \hskip .2in \rightarrow \hskip .2in p_\alpha = \frac{\alpha}{\alpha + 100}      
+\end{equation}
+
+\begin{equation}
+\frac{\beta}{100} B  - (1+\frac{\beta}{100})p_\beta B = 0 \hskip .2in \rightarrow \hskip .2in p_\beta= \frac{\beta}{\beta + 100}      
+\end{equation}
+
+\paragraph{} If $\alpha = \beta$, all internal probabilities $p$ have a non-negative expectation value. However, given that money lines require $\beta < \alpha$ in order to be profitable, there existss a deadzone of internal probabilites $p_{\beta} < p < p_{\alpha}$ where betting on either outcome has negative expectation value. 
+
+\subsection{Making the Money Line}
+
+\paragraph{} This paper assumes that, when sportsbooks make their money lines, they do so with knowledge of each consumer's internal probability (denoted $p_{i}$) as well as the amount of money each consumer is willing to bet (denoted $m_{i}$). This information can be condensed into a money density function $\rho_M(p)$. This function is the amount of money willing to be bet as a function of internal probability. For example, if $\rho_M(.5)$ = \$100, then the total amount of money willing to be bet by people who believe that the favored event has a 50\% chance of occuring is \$100. The contruction of $\rho_M(p)$ from the individual $m_i$'s and $p_i$'s is as follows:
+
+\begin{equation}
+\rho_M(p) = \sum_{i}
+   \begin{cases} 
+     0 & p_i \neq p \\
+     m_i & p_i = p \\
+   \end{cases}
+\end{equation}
+
+\paragraph{} Additionally, we define the integral of the money density function $\Gamma(p)$:
+\begin{equation}
+\Gamma(p) = \int_0^p\rho_M(p') dp'
+\end{equation}
+
+\paragraph{} Using this construction, the sportsbook can mathematically defined its profit under either binary event outcome: 
+
+% Implemented because page break splits up one of the headers below with its content
+\pagebreak
+
+\begin{center}
+\underline{\textbf{Favorite Wins}}
+\end{center}
+\vspace{-1pt}
+\begin{equation}
+\textnormal{Sportsbook Profit} = \Gamma(p_\beta)-\frac{100}{\alpha}(\Gamma(1)-\Gamma(p_\alpha)) 
+\end{equation}
+
+\begin{center}
+\underline{\textbf{Underdog Wins}}
+\end{center}
+\vspace{-1pt}
+\begin{equation}
+\textnormal{Sportsbook Profit} =  +(\Gamma(1)-\Gamma(p_\alpha)) - \frac{\beta}{100}
+\end{equation}
+
+\paragraph{} The sportsbook is assumed to maximize profitability under the constraint of balance, so that the sportsbook profit is the same no matter the outcome of the binary event. The $p_{alpha}$ and $p_{beta}$, and therefore the $\alpha$ and $\beta$ of the moneyline, that accomplish this can be found using the Lagrange Multipliers method, as shown below.
+
+\paragraph{} Balance stipulates that the sportsbook profit when the favorite wins is equivalent to the sportsbook profit when the underdog wins. Therefore, by utilizing Equations (7) and (8), we can create a constraint function $C(p_\alpha,p_\beta)$ that equals zero.
+
+\begin{equation}
+C(p_\alpha,p_\beta) := \Gamma(p_\beta) - \frac{100}{\alpha}(\Gamma(1)-\Gamma(p_\alpha)) - (\Gamma(1)-\Gamma(p_\alpha)) + \frac{\beta}{100}\Gamma(p_\beta) = 0
+\end{equation}
+
+\paragraph{} Of course, we can take the sportsbook profit for either binary event outcome as the profit function $P(p_\alpha,p_\beta)$.
+
+\begin{equation}
+P(p_\alpha,p_\beta) := (\Gamma(1)-\Gamma(p_\alpha)) - \frac{\beta}{100}\Gamma(p_\beta)
+\end{equation}
+
+\paragraph{} Before the Lagrange Multiplier method can be utilized, the equations above require adjustments. First, both equations must be defined in terms of $p_\alpha$ and $p_\beta$ rather than including $\alpha$ and $\beta$, so that $p_\alpha$ and $p_\beta$ become the independent variables of the system. Second, the profit function can be simplified using the constraint function equation. Finally, the constraint function itself can be simplified by allowing non-zero division and multiplication due to its equivalency to zero.
+
+\begin{equation}
+C(p_\alpha,p_\beta) := p_\alpha \Gamma(p_\beta) - (1-p_\beta)(\Gamma(1)-\Gamma(p_\alpha)) = 0
+\end{equation}
+
+\begin{equation}
+P(p_\alpha,p_\beta) := (1-\frac{p_\beta}{p_\alpha})(\Gamma(1)-\Gamma(p_\alpha))
+\end{equation}
+
+\paragraph{} According to the Lagrange Multiplier method, given the constraint $C(p_\alpha,p_\beta)$ and optimizable function $P(p_\alpha,p_\beta)$, there exists some number $\lambda$ such that:
+
+\begin{equation}
+\frac{\partial}{\partial p_\alpha} [P(p_\alpha,p_\beta)] = \lambda \frac{\partial}{\partial p_\alpha} [C(p_\alpha,p_\beta)] 
+\end{equation}
+
+\begin{equation}
+\frac{\partial}{\partial p_\beta} [P(p_\alpha,p_\beta)] = \lambda \frac{\partial}{\partial p_\beta} [C(p_\alpha,p_\beta)] 
+\end{equation}
+
+\paragraph{} We can simplify this further and state that:
+
+\begin{equation}
+\frac{\partial}{\partial p_\alpha} [P(p_\alpha,p_\beta)] \frac{\partial}{\partial p_\beta} [C(p_\alpha,p_\beta)]  = \frac{\partial}{\partial p_\beta} [P(p_\alpha,p_\beta)]  \frac{\partial}{\partial p_\alpha} [C(p_\alpha,p_\beta)] 
+\end{equation}
+
+\paragraph{} Subsituting Equations 11 and 12 into Equation 15 gives us:
+
+\begin{equation}
+\begin{split}
+p_\alpha (1-p_\alpha) \rho_M(p_\alpha) \Gamma(p_\beta) + p_\beta (1-p_\beta) \rho_M(p_\beta) (\Gamma(1)-\Gamma(p_\alpha))  \hspace{10pt}\\
++ \Gamma(p_\beta)(\Gamma(1)-\Gamma(p_\alpha)) - (p_\alpha - p_\beta) p_\alpha (1 - p_\beta) \rho_M(p_\alpha) \rho_M(p_\beta) = 0
+\end{split}
+\end{equation}
+
+\paragraph{} Therefore, the money line which maximizes profit while maintaining balance between the profit of both outcomes fulfills the following two conditions: \\
+
+\begin{center}
+\underline{\textbf{Money Line Condition 1}}
+\end{center}
+\vspace{-1pt}
+
+\begin{equation}
+p_\alpha \Gamma(p_\beta) - (1-p_\beta)(\Gamma(1)-\Gamma(p_\alpha))  = 0
+\end{equation}
+
+\vspace{10pt}
+
+\begin{center}
+\underline{\textbf{Money Line Condition 2}}
+\end{center}
+\vspace{-10pt}
+
+\begin{equation}
+\begin{split}
+p_\alpha (1-p_\alpha) \rho_M(p_\alpha) \Gamma(p_\beta) + p_\beta (1-p_\beta) \rho_M(p_\beta) (\Gamma(1)-\Gamma(p_\alpha))  \hspace{10pt}\\
++ \Gamma(p_\beta)(\Gamma(1)-\Gamma(p_\alpha)) - (p_\alpha - p_\beta) p_\alpha (1 - p_\beta) \rho_M(p_\alpha) \rho_M(p_\beta) = 0
+\end{split}
+\end{equation}
+
+\paragraph{} Therefore, given that the sportsbook knows the money density function $\rho_{M}(p)$, the sportsbook can create a money line which optimizes profitability under the constraint of balanced outcomes. 
+
+\section{Peer to Peer Gambling}
+
+\subsection{Set Up}
+
+\paragraph{} The motivation for this novel peer to peer gambling method is the Rental Harmony Problem, which attempts to create envy-free assignments of rooms and rental payments among a group of housemates. Using Sperner's Lemma, it can be shown that, given a simple set of assumptions, there must exist at least one envy free solution \cite{rental_harmony_paper}.  The generalization to peer betting occurs via the replacement of room assignment with binary outcome to be bet on, and rental payment with betting odds. In a two housemate Rental Harmony Problem, an envy-solution can be generated by by querying each housemate for the value of one bedroom, and assigning that room to whoever valued it the most  \cite{planet_money_episode}. The rental payment for that room is simply the average of the responses, with the other room's rent the remainder of the total house rent. 
+
+\paragraph{} With peer to peer gambling, all players are queried as to the probability that the focal event of a binary event will occur. These probabilities are then sort and players matched according. The ideal matching strategy is an open area of investigation, and later on some simpler matching strategies will be used to demonstrate the profitability of peer to peer gambling as compared to the traditional moneyline. Within each match, %%%%%%%%%%%%
+
+
+
+
+ specifically applied to a two house mate scenario. 
+
+
+
+ Before we begin talking about gambling and probabilities, let’s consider an example problem to motivate our discussion of peer-to-peer gambling. This is the rental harmony problem, which is well explained in an episode of the economics podcast Planet Money [5]. The idea is that two roommates are sharing a two-bedroom apartment with a monthly rent of \$2000. Let’s call them Zack and Mason. The bedrooms are different; one is bigger and the other has a closet. Zack and Mason are trying to solve two different problems:\\
+
+\begin{enumerate}
+\item Who gets which room?
+
+\item After deciding who gets which room, how much rent does each roommate pay?
+\end{enumerate}
+
+\paragraph{} Constantinos Daskalakis, renowned game theorist, MIT professor, and guest on this Planet Money episode, recommended the following strategy. Both Zack and Mason write down in secret what they perceive as the value of both rooms, with the sum of both rooms’ values equal to the rental amount of \$2000. A possible scenario of these individual evaluations follows below:
+
+\begin{center}
+	\begin{table}[h]
+	\begin{tabular}{ | C{4.6cm} | C{4.6cm} | C{4.6cm} |}
+	\hline
+	\rowcolor{gray}
+	& Bigger Bedroom Value & Closeted Bedroom Value \\ 
+	\hline
+	\rowcolor{white}
+	Mason & 1300 & 700 \\  
+	\hline
+	\rowcolor{lightgray}
+	Zack & 1150 & 950  \\ 
+	\hline
+	\end{tabular}
+	\caption{\label{demo-table}Possible Individual Evaluations}
+	\end{table}
+\end{center}
+\vspace{-25pt}
+
+\paragraph{} Daskalakis then suggests Zack and Mason share their valuations and allocate the bedrooms by giving each roommate the bedroom they valued the highest. In the example above, Mason, who valued the bigger bedroom more than Zack, would get the bigger bedroom while Zack, who valued the closeted bedroom more than Mason, would get the closeted bedroom. The rental cost of each bedroom would then be the average of the two roommates’ valuations. Both the room allocations and the rental payments for the scenario in Table ??? are listed in Table ???. 
+
+\begin{center}
+	\begin{table}[h]
+	\begin{tabular}{ | P{4.6cm} | P{4.6cm} | P{4.6cm} |}
+	\hline
+	\rowcolor{gray}
+	& Bedroom & Rental Payment \\ 
+	\hline
+	\rowcolor{white}
+	Mason & Bigger & 1175 \\  
+	\hline
+	\rowcolor{lightgray}
+	Zack & Closeted & 825 \\ 
+	\hline
+	\end{tabular}
+	\caption{\label{demo-table}Possible Room and Rent Allocations}
+	\end{table}
+\end{center}
+\vspace{-25pt}
+
+\paragraph{} What allowed the system above to work was a willingness by both Zack and Mason to sacrifice control of room choice in the interest of getting the best deal. While they could influence what room they got based off how much they valued their favorite room, their room allocation drastically depended on what the other person’s valuations were. This sacrifice is fundamentally different from the principles of traditional gambling, where, to continue using the analogy, players are given room prices by a bookmaker and asked to choose their room.
+
+\subsection{Transition to Gambling}
+
+\paragraph{} Now the question becomes: how do we engineer a bet from these probabilities such that both Zack and Mason have the same expectation value? Let’s assume Mason is betting \$100, and Zack is betting B dollars. Since Mason ‘values’ the Buccaneers winning more than Zack does, Mason is assigned to betting on the favored Buccaneers and Zack, who ‘values’ the Eagles winning more than Mason, is assigned to betting on the underdog Eagles. We shall label Mason’s probability that the Buccaneers win as $p_M$ and Zack’s probability that the Buccaneers win as $p_Z$. Let’s look at our expectation values:
+
+\begin{equation}
+\textnormal{Mason's Expectation Value} = p_M (B) + (1 - p_M )(-100) = (100 + B)  p_M  - 100
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Expectation Value} = p_Z (-B) + (1 - p_Z )(100) = 100 - (100 + B)  p_Z 
+\end{equation}
+
+\paragraph{} Solving for $B$, we find:
+
+\begin{equation}
+B = \frac{200}{p_M + p_Z} - 100
+\end{equation}
+
+\paragraph{} Using the values in Table 11, we get $B$ = 25, with both Zack and Mason’s expectation value equivalent to \$5. Thus, according to their respective models, Zack and Mason see their bets as being worth \$5. This method seemingly allows us to create value out of nothing! Of course, the perceived value of this bet arises from the asymmetry of Zack and Mason’s probabilities with both each other and, for at least one of these probabilities, the real probability of this event occurring.
+
+\paragraph{} If we want to calculate the real expectation value (EV) of both Zack and Mason’s bets, we use the real probability $p_R$. This time, we’re assuming the size of Mason’s bet to be a generic $M$:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = p_R(\frac{2 M}{p_M  +  p_Z}  - M) + (1 - p_R )(-M) = \frac{2 p_R}{p_M  +  p_Z}  M - M
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = p_R(M - \frac{2 M}{p_M  +  p_Z}) + (1 - p_R )(M) = M - \frac{2 p_R}{p_M  +  p_Z}  M
+\end{equation}
+
+\paragraph{} As you can see, the sum of the real expectation values is zero, aligning with the conservation of money in the system. 
+
+\paragraph{} The question becomes one of how to profitize such peer-to-peer gambling. The solution is to take a small amount from the winnings, potentially equivalent to the expected value of both players. Thus, the peer-to-peer gambling company is, in effect, selling bets between players for the value of that bet’s expectation value to the players. Whereas profit in selling goods arises from the asymmetry between price and the cost of making that good, the value of peer-to-peer gambling occurs from the asymmetry in Zack and Mason’s probabilities. 
+
+\paragraph{} Now, let’s look at all possible configurations of peer-to-peer gambling in the parameter space. There are four major zones:
+
+\paragraph{} Dividing these zones are two special lines. The $p_Z = p_M$ line corresponds to the line of no bet. Here, there is no asymmetry between Zack and Mason’s models, and thus there is no chance to offer them a bet which offers a mutual positive expectation value. The $p_Z = 1 - p_M$ corresponds to a line of even bets, where both Zack and Mason perceive their bets as having the same probability of success. Thus, both risk the maximum bid amount and if $p_M > p_Z$:
+
+\paragraph{} Talk about where fee $F$ comes from and Maxbid $M$. $p_Z vs p_M$ tells us local favorite. $p_Z vs 1 - p_M$ tells us global favorite. ???
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = (p_M  -  p_Z)M - p_M F
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = (2p_R - 1)M - p_R F
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = (1- 2p_R)M - (1 - p_R) F
+\end{equation}
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_M - p_Z)M}{1 + x p_M}
+\end{equation}
+
+\paragraph{} If we’re on the line of equivalent bets and $p_Z > p_M$, we get:
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = (p_Z - p_M)M - p_Z F
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = (1- 2p_R)M - (1 - p_R) F
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = (2p_R - 1)M - p_R F
+\end{equation}
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_Z - p_M)M}{1 + x p_Z}
+\end{equation}
+
+\paragraph{} Now onto our zones...
+
+\subsubsection*{Zone 1}
+
+\paragraph{} In Zone 1, we find that focal event is a local favored event as $p_Z + p_M > 1$, with Mason viewing the focal event as more valuable. Thus, Mason is assigned to bet on the appraised outcome and Zack on its conjugate. Assuming we take a fee of $F$, we find:
+
+\begin{equation}
+\textnormal{Mason's Expectation Value} = p_M (Pay_Z - F) + (1 - p_M )(-Pay_M)
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Expectation Value} = p_Z (-Pay_Z) + (1 - p_Z )(Pay_M - F) 
+\end{equation}
+
+\paragraph{} Our model assumes there is a maximum bid $M$ designated for this bet pairing. Since Mason sees his success as more probable than Zack sees his success ($p_M > 1 - p_Z$), his payment into the system is assigned to $M$, while Zack’s is left to be calculated. Setting the expectation values equal, we find:
+
+\begin{equation}
+Pay_Z = \frac{2M - F}{p_M + p_Z} + F - M
+\end{equation}
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = \frac{(p_M - p_Z)M - p_M F}{p_M + p_Z}
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = \frac{(2p_R - p_M - p_Z)M - p_R F}{p_M + p_Z}
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = \frac{p_M + p_Z - 2p_R)M - (p_M + p_Z - p_R)F}{p_M + p_Z}
+\end{equation}
+
+\paragraph{} Note how the sum of Zack and Mason’s real expectation values is $-F$, which is equivalent to the amount of money being taken out of the system.
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_M - p_Z)M}{p_M + p_Z + x p_M}
+\end{equation}
+ 
+\subsubsection*{Zone 2}
+
+\paragraph{} In Zone 2, we find that focal event is a local favored event as $p_Z + p_M > 1$, with Zack viewing the focal event as more valuable. Thus, Zack is assigned to bet on the appraised outcome and Mason on its conjugate. Assuming we take a fee of $F$, we find:
+
+\begin{equation}
+\textnormal{Mason's Expectation Value} = p_M (-Pay_M) + (1 - p_M)(Pay_Z - F) 
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Expectation Value} = p_Z (Pay_M - F) + (1 - p_Z )(-Pay_Z)
+\end{equation}
+
+\paragraph{} Our model assumes there is a maximum bid $M$ designated for this bet pairing. Since Zack sees his success as more probable than Mason sees his success ($p_M > 1 - p_Z$), his payment into the system is assigned to $M$, while Mason’s is left to be calculated. Setting the expectation values equal, we find:
+
+\begin{equation}
+Pay_M = \frac{2M - F}{p_M + p_Z} + F - M
+\end{equation}
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = \frac{(p_Z - p_M)M - p_Z F}{p_M + p_Z}
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = \frac{p_M + p_Z - 2p_R)M - (p_M + p_Z - p_R)F}{p_M + p_Z}
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = \frac{(2p_R - p_M - p_Z)M - p_R F}{p_M + p_Z}
+\end{equation}
+
+\paragraph{} Note how the sum of Zack and Mason’s real expectation values is $-F$, which is equivalent to the amount of money being taken out of the system.
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_Z - p_M)M}{p_M + p_Z + x p_Z}
+\end{equation}
+
+\subsubsection*{Zone 3}
+
+\paragraph{} In Zone 3, we find that focal event is a local underdig event as $p_Z + p_M < 1$, with Zack viewing the focal event as more valuable. Thus, Zack is assigned to bet on the appraised outcome and Mason on its conjugate. Assuming we take a fee of $F$, we find:
+
+\begin{equation}
+\textnormal{Mason's Expectation Value} = p_M (-Pay_M) + (1 - p_M)(Pay_Z - F) 
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Expectation Value} = p_Z (Pay_M - F) + (1 - p_Z )(-Pay_Z)
+\end{equation}
+
+\paragraph{} Our model assumes there is a maximum bid $M$ designated for this bet pairing. Since Mason sees his success as more probable than Zack sees his success ($1 - p_M > p_Z$), his payment into the system is assigned to $M$, while Zack’s is left to be calculated. Setting the expectation values equal, we find:
+
+\begin{equation}
+Pay_Z = \frac{2M - F}{2- p_M - p_Z} + F - M
+\end{equation}
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = \frac{(p_Z - p_M)M - (1 - p_M) F}{2 - p_M - p_Z}
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = \frac{p_M + p_Z - 2p_R)M - (1 - p_R)F}{2- p_M - p_Z}
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = \frac{(2p_R - p_M - p_Z)M - (1 + p_R - p_M - p_Z)F}{2 - p_M - p_Z}
+\end{equation}
+
+\paragraph{} Note how the sum of Zack and Mason’s real expectation values is $-F$, which is equivalent to the amount of money being taken out of the system.
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_Z - p_M)M}{2 - p_M - p_Z + x(1 - p_M)}
+\end{equation}
+
+\subsubsection*{Zone 4}
+
+\paragraph{} In Zone 4, we find that focal event is a local underdig event as $p_Z + p_M < 1$, with Mason viewing the focal event as more valuable. Thus, Mason is assigned to bet on the appraised outcome and Zack on its conjugate. Assuming we take a fee of $F$, we find:
+
+\begin{equation}
+\textnormal{Mason's Expectation Value} = p_M (Pay_Z - F) + (1 - p_M )(-Pay_M)
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Expectation Value} = p_Z (-Pay_Z) + (1 - p_Z )(Pay_M - F) 
+\end{equation}
+
+\paragraph{} Our model assumes there is a maximum bid $M$ designated for this bet pairing. Since Mason sees his success as more probable than Zack sees his success ($1 - p_M > p_Z$), his payment into the system is assigned to $M$, while Zack’s is left to be calculated. Setting the expectation values equal, we find:
+
+\begin{equation}
+Pay_M = \frac{2M - F}{2- p_M - p_Z} + F - M
+\end{equation}
+
+\begin{equation}
+\textnormal{Mason and Zack's EV} = \frac{(p_M - p_Z)M - (1 - p_Z) F}{2 - p_M - p_Z}
+\end{equation}
+
+\paragraph{} If we have a real probability $p_R$, we get:
+
+\begin{equation}
+\textnormal{Mason's Real EV} = \frac{(2p_R - p_M - p_Z)M - (1 + p_R - p_M - p_Z)F}{2 - p_M - p_Z}
+\end{equation}
+
+\begin{equation}
+\textnormal{Zack's Real EV} = \frac{p_M + p_Z - 2p_R)M - (1 - p_R)F}{2- p_M - p_Z}
+\end{equation}
+
+\paragraph{} Note how the sum of Zack and Mason’s real expectation values is $-F$, which is equivalent to the amount of money being taken out of the system.
+
+\paragraph{} If we set our fee to be a certain proportion of the expected value (x), we get:
+
+\begin{equation}
+F = x \frac{(p_M - p_Z)M}{2 - p_M - p_Z + x(1 - p_Z)}
+\end{equation}
+
+\paragraph{} A contour of profitability as a function of both $p_M$ and $p_Z$ follows below:
+
+\paragraph{} As you can see, the more extreme $p_M, p_Z$ produce greater profitability.
+
+\section{5.	Generalization to N persons and Revenue Considerations}
+
+\subsection{N persons in Peer-to-Peer System}
+
+\paragraph{} The previous section dealt only with two players. However, given the limited amount of revenue to be made off two players, a peer-to-peer gambling system for a large number of players in desirable. This paper proposes a system in which the two-person bet structure is maintained by pairing the players and generating specific peer-to-peer bets for each pair. Given that the fee collected by the matching agency is proportional to the difference in input probabilities (see equations , , , and ), matching could follow the following procedure:
+
+\begin{enumerate}
+\item Collect the incoming focal probabilities and their provider’s identity
+
+\item Sort the focal probabilities from lowest to highest
+
+\item Match highest to lowest, second highest to second lowest, etc.
+\end{enumerate}
+
+\paragraph{} (does this really get the highest revenue??)
+(Batching -> we sort and match every hour until 24 hours before the event; then it’s every 10 minutes. We don’t want people who bet right before the game started to be matched with people who bet on the game days before, discourages early betting)
+
+\paragraph{} However, a problem arises the simple implementation of this procedure. As those familiar with sports gambling know, the odds of an event are never static. As new information about the event is released, such as injury reports and weather reports, the odds shift, sometimes significantly. Thus, in order to prevent a massive advantage for consumers who input their focal probabilities later, this paper recommends a batching strategy. With batching, incoming incoming focal probabilities will be collected, sorted, and matched on an hourly basis. On the day of the PATTERN RECOGNITION STUFF?
+
+\paragraph{} The matching method stated previously (matching highest to lowest, second highest to second lowest, etc.) is generally seen as the most profitable. However, it is not mathematically proven to be most profitable and the following counterexample indicates that cannot be
+
+\begin{tcolorbox}[enhanced, breakable]
+{\bf Discussion:}
+\vspace{-15pt}
+
+\paragraph{} The fee collected from a bet created from probabilities $p_1, p_2$ can be generalized to the following equation:
+
+\begin{equation}
+x M\frac{p_> - p_<}{\textnormal{max}(p_> + p_<,2 - p_> - p_<) + \textnormal{max}(p_>,1-p_<)x}
+\end{equation}
+
+\paragraph{} where
+
+\begin{equation}
+p_> = \textnormal{max}(p_1, p_2);   \hspace{10pt}   p_< = \textnormal{min}(p_1, p_2); 
+\end{equation}
+
+\paragraph{} Our total profit is simply:
+
+\begin{equation}
+\sum_{pairs} x M\frac{p_> - p_<}{\textnormal{max}(p_> + p_<,2 - p_> - p_<) + \textnormal{max}(p_>,1-p_<)x}
+\end{equation}
+
+\paragraph{} Suppose we are given the following probabilties: [.651, .462, .412, .691, .675, .687, .663, .607, .365, .572]. If we use the matching method above with $x$ = 1 and $M$ = \$1, we get a profit of \$.5291. However, we can also pair probabilities by sorting, splitting the set in two, and pairing the nth element of set 1 with the nth element of set 2.  This method is detailed below:
+
+\paragraph{} If we use this method, we actually get a total profit of \$.5349, higher than the original matching method's. Thus, we find that optimal matching scheme for profitability is complicated and requires a deeper level of mathematics. A more formal and generalized statement of this problem follows:
+
+\subsubsection*{The Optimal Matching Problem}
+\paragraph{} Given a set of $n$ ordered elements $\{p_1, p_2, \hdots , p_n\}$ selected from an interval $[a,b]$ with probability distribution $\psi(x)$ and a function $f(p_i,p_j)$, how can one determine an optimal pairing method such that $\sum_{pairs} f(p_i,p_j)$ is maximized?
+\end{tcolorbox}
+
+\subsection{The Return of the Money Density Function}
+
+\paragraph{} RECREATE RHOsubM from MONEYLINE and -Thing for favorite. (assume RHOsubM follows Secondary Probability Distribution????)
+
+\begin{thebibliography}{9}
+\bibitem{rental_harmony_paper}
+Su, F. E. (1999). "Rental Harmony: Sperner's Lemma in Fair Division". The American Mathematical Monthly. 106 (10): 930–942. doi:10.2307/2589747. JSTOR 2589747.
+
+\bibitem{planet_money_episode}
+Malone, K., \& Herships, S. (2019, January 25). The Division Problem. Planet Money. episode, New York City, New York; National Public Radio.
+\end{thebibliography}
+
+
+
+\end{document}
