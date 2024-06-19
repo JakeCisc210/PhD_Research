@@ -27,10 +27,10 @@ function [profit,matching_technique] = peer2peer_profit_from_sample(sample_value
     end
 
     if profit_outside_in >= profit_split_n_pair
-        profit = profit_outside_in/num_samples;
+        profit = profit_outside_in;
         matching_technique = 'Outside In';
     else
-        profit = profit_split_n_pair/num_samples;
+        profit = profit_split_n_pair;
         matching_technique = 'Split n'' Pair';
     end
 
